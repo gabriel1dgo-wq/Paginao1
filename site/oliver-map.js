@@ -82,34 +82,66 @@
   search.addEventListener('change', runSearch);
   search.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); runSearch(); } });
 
-  /* ---------- Google-like light style ---------- */
+  /* ---------- clean light style: soft ground, white streets, deep buildings ---------- */
+  const C = { ground: '#f2efe9', block: '#ebe7df', park: '#cfe5c4', water: '#a9d3ec', street: '#ffffff', casing: '#dcd6cb', major: '#fbf6ea', majorCasing: '#e2d5bc', label: '#6d6a64' };
   function lightStyle(style) {
-    style.layers = style.layers.filter(l => l.type !== 'fill-extrusion');
+    // drop 3D (we add our own), raster/hillshade (low-res = grainy) and noisy symbols
+    style.layers = style.layers.filter(l => l.type !== 'fill-extrusion' && l.type !== 'raster' && l.type !== 'hillshade'
+      && !(l.type === 'symbol' && /poi|housenumber|aeroway|mountain|peak|ferry|oneway|shield/.test(l.id)));
+    Object.keys(style.sources).forEach(k => { if (style.sources[k].type !== 'vector') delete style.sources[k]; });
     style.layers.forEach(l => {
-      l.paint = l.paint || {}; l.layout = l.layout || {};
-      if (l.type === 'symbol' && /poi|housenumber/.test(l.id)) l.layout.visibility = 'none';
-      if (l.type === 'background') l.paint['background-color'] = '#f3f1ec';
-      if (l.type === 'fill' && /water/.test(l.id)) l.paint['fill-color'] = '#aadaff';
-      if (l.type === 'fill' && /park|wood|grass|forest|landcover/.test(l.id)) l.paint['fill-color'] = '#c8e6c0';
+      const paint = l.paint = l.paint || {}; l.layout = l.layout || {};
+      const id = l.id;
+      if (l.type === 'background') paint['background-color'] = C.ground;
+      if (l.type === 'fill') {
+        if (paint['fill-pattern']) { delete paint['fill-pattern']; paint['fill-color'] = C.block; } // hatch patterns look pixelated when tilted
+        if (/water/.test(id)) paint['fill-color'] = C.water;
+        else if (/park|wood|grass|forest|landcover|golf|cemetery|pitch/.test(id)) { paint['fill-color'] = C.park; paint['fill-opacity'] = .85; }
+        else if (/building/.test(id)) { paint['fill-color'] = '#e4dfd6'; paint['fill-opacity'] = ['interpolate', ['linear'], ['zoom'], 13, 1, 14.5, 0]; }
+        else if (/landuse|residential|industrial|commercial|school|hospital|railway/.test(id)) { paint['fill-color'] = C.block; paint['fill-opacity'] = .6; }
+        paint['fill-antialias'] = true;
+      }
+      if (l.type === 'line') {
+        if (/waterway|river|stream|canal/.test(id)) paint['line-color'] = C.water;
+        else if (/boundary|admin/.test(id)) paint['line-opacity'] = .35;
+        else if (/rail|transit/.test(id)) { paint['line-color'] = '#cfc9bf'; paint['line-opacity'] = .8; }
+        else if (/road|highway|bridge|tunnel|street|path|service|minor|track/.test(id)) {
+          const major = /motorway|trunk|primary/.test(id), casing = /casing/.test(id);
+          paint['line-color'] = casing ? (major ? C.majorCasing : C.casing) : (major ? C.major : C.street);
+          if (/tunnel/.test(id)) paint['line-opacity'] = .55;
+          if (/path|track|pedestrian|steps/.test(id)) paint['line-color'] = '#ece8e0';
+        }
+      }
+      if (l.type === 'symbol') {
+        paint['text-color'] = /water/.test(id) ? '#4f86a8' : C.label;
+        paint['text-halo-color'] = 'rgba(255,255,255,.9)'; paint['text-halo-width'] = 1.4;
+        if (/place/.test(id)) paint['text-color'] = '#3d3b37';
+        delete l.layout['icon-image'];
+      }
     });
     return style;
   }
   function addLayers() {
-    map.setLight({ anchor: 'viewport', color: '#ffffff', intensity: .35, position: [1.3, 210, 40] });
+    map.setLight({ anchor: 'map', color: '#fff8ee', intensity: .55, position: [1.4, 215, 35] });
+    try {
+      map.setSky({ 'sky-color': '#dfe8ef', 'horizon-color': '#f4efe6', 'fog-color': '#f2efe9', 'sky-horizon-blend': .7, 'horizon-fog-blend': .6, 'fog-ground-blend': .25, 'atmosphere-blend': 0 });
+    } catch {}
+    const h = ['coalesce', ['get', 'render_height'], 8];
     map.addLayer({
-      id: 'oliver-buildings', source: 'openmaptiles', 'source-layer': 'building', type: 'fill-extrusion', minzoom: 13,
+      id: 'oliver-buildings', source: 'openmaptiles', 'source-layer': 'building', type: 'fill-extrusion', minzoom: 14,
       paint: {
-        'fill-extrusion-color': ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], 6], 0, '#e6e2da', 40, '#dcd8cf', 120, '#cfd4da'],
-        'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 13, 0, 14.4, ['coalesce', ['get', 'render_height'], 6]],
+        // low = warm stone, towers = cool glass; the height gradient + directional light gives depth
+        'fill-extrusion-color': ['interpolate', ['linear'], h, 0, '#ece6dc', 20, '#e2dcd1', 60, '#d3d5d6', 140, '#bcc6cf'],
+        'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 14, 0, 15, h],
         'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
-        'fill-extrusion-opacity': .92, 'fill-extrusion-vertical-gradient': true
+        'fill-extrusion-opacity': .95, 'fill-extrusion-vertical-gradient': true
       }
     });
     catalog.forEach(p => {
       const el = document.createElement('button');
       el.type = 'button'; el.className = 'gm-pin';
       el.setAttribute('aria-label', `${p.name}, ${p.bairro}`);
-      el.innerHTML = `<span class="gm-pin-card"><img src="${p.cover}" alt=""><span><b>${p.name}</b><i>${p.area}</i></span></span><span class="gm-pin-tip"></span>`;
+      el.innerHTML = `<span class="gm-pin-card"><img src="${p.cover}" alt="" decoding="async"><span><b>${p.name}</b><i>${p.area}</i></span></span><span class="gm-pin-tip"></span>`;
       el.addEventListener('click', e => { e.stopPropagation(); focusProject(p.id); });
       pins.set(p.id, el);
       new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat(p.ll).addTo(map);
@@ -143,6 +175,7 @@
     try {
       map = new maplibregl.Map({
         container, style, ...overview,
+        pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 150, maxTileCacheSize: 120,
         maxBounds: [[-46.95, -23.80], [-46.30, -23.35]], minZoom: 9.5, maxZoom: 18, maxPitch: 70,
         attributionControl: { compact: true }, cooperativeGestures: true
       });
@@ -172,7 +205,7 @@
     intro.style.transform = `translate(-50%, calc(-50% - ${p * 200}px))`;
     ui.style.opacity = reduced ? 1 : clamp((p - .08) / .1);
     ui.classList.toggle('live', reduced || p > .12);
-    if (!map || !ready || reduced || userMoved) return;
+    if (!map || !ready || reduced || userMoved || !visible) return; // never redraw the map while it is off screen
     if (p < .2) {
       const t = clamp(p / .2), e = t * t * (3 - 2 * t);
       const reg = regions.oeste;
@@ -186,9 +219,10 @@
       if (idx !== lastIdx) { lastIdx = idx; focusRegion(keys[idx]); }
     }
   }
-  addEventListener('scroll', () => requestAnimationFrame(onScroll), { passive: true });
-  new IntersectionObserver(e => { if (e.some(x => x.isIntersecting)) init(); }, { rootMargin: '1200px' }).observe(section);
-  new IntersectionObserver(e => { visible = e[0].isIntersecting; if (!visible) { userMoved = false; lastIdx = -2; } }).observe(section);
+  let ticking = false;
+  addEventListener('scroll', () => { if (ticking) return; ticking = true; requestAnimationFrame(() => { ticking = false; onScroll(); }); }, { passive: true });
+  new IntersectionObserver(e => { if (e.some(x => x.isIntersecting)) init(); }, { rootMargin: '600px' }).observe(section);
+  new IntersectionObserver(e => { visible = e[0].isIntersecting; if (!visible) { userMoved = false; lastIdx = -2; } else onScroll(); }).observe(section);
   onScroll();
 
   window.OliverMap = { focusRegion, focusProject };
