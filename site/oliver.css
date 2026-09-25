@@ -906,3 +906,8 @@ body.gallery-is-open { overflow: hidden; }
 #city-map.mid .gm-pin:not(.selected):not(.hover):not(:hover) .gm-pin-card { padding: 0; gap: 0; }
 #city-map.mid .gm-pin:not(.selected):not(.hover):not(:hover) .gm-pin-card > span { display: none; }
 #city-map.mid .gm-pin-card img { border: 2px solid #fff; }
+
+/* lead form extras */
+.profile-card .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.profile-card .consent { flex-direction: row; align-items: flex-start; gap: 10px; font-size: 11.5px; font-weight: 400; letter-spacing: 0; text-transform: none; color: #57544e; line-height: 1.5; }
+.profile-card .consent input { width: 16px; height: 16px; margin: 2px 0 0; flex: none; accent-color: var(--ink); }

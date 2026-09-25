@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/brand-0.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="assets/vendor/maplibre.css">
-<link rel="stylesheet" href="oliver.css?v=13">
+<link rel="stylesheet" href="oliver.css?v=14">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -307,7 +307,7 @@
   <div class="profile-side">
     <p class="eyebrow reveal">Seu momento é o ponto de partida</p>
     <h2 class="display-sm reveal">Descubra em 1 minuto o imóvel que cabe no seu bolso.</h2>
-    <p class="reveal">Responda 6 perguntas rápidas. Suas respostas chegam direto no meu WhatsApp e eu volto com as opções que fazem sentido para você, com parcela, entrada e documentação.</p>
+    <p class="reveal">Responda algumas perguntas rápidas. Suas respostas chegam direto no meu WhatsApp e eu volto com as opções que fazem sentido para você, com parcela, entrada e documentação.</p>
     <ul class="checks">
       <li><svg><use href="#i-check"/></svg>Simulação gratuita e sem compromisso.</li>
       <li><svg><use href="#i-check"/></svg>Você explica suas prioridades uma única vez.</li>
@@ -317,16 +317,24 @@
   </div>
   <form id="lead-profile" class="profile-card reveal-up">
     <div class="grid">
-      <label>Como posso chamar você?<input name="nome" autocomplete="given-name" maxlength="80" placeholder="Seu nome" required></label>
+      <label>Como posso chamar você?<input name="nome" autocomplete="name" maxlength="80" placeholder="Seu nome" required></label>
+      <label>Seu WhatsApp<input name="telefone" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="16" placeholder="(11) 90000-0000" pattern="\(?\d{2}\)?\s?9?\d{4}-?\d{4}" required></label>
+      <label>E-mail · opcional<input name="email" type="email" autocomplete="email" maxlength="120" placeholder="voce@email.com"></label>
       <label>Qual é seu objetivo?<select name="objetivo" required><option value="">Selecione</option><option>Sair do aluguel / primeiro imóvel</option><option>Mudar para um imóvel maior</option><option>Investir</option><option>Estou explorando possibilidades</option></select></label>
       <label>Algum projeto chamou sua atenção?<select name="projeto" id="profile-project" required><option value="Quero ajuda para escolher">Quero ajuda para escolher</option></select></label>
       <label>Quanto pretende investir?<select name="orcamento" required><option value="">Selecione</option><option>Até R$ 250 mil</option><option>Acima de R$ 250 mil até R$ 350 mil</option><option>Acima de R$ 350 mil até R$ 500 mil</option><option>Acima de R$ 500 mil</option><option>Ainda preciso definir</option></select></label>
       <label>Quanto planeja de entrada?<select name="entrada" required><option value="">Selecione</option><option>Até R$ 20 mil</option><option>Acima de R$ 20 mil até R$ 50 mil</option><option>Acima de R$ 50 mil até R$ 100 mil</option><option>Acima de R$ 100 mil</option><option>Ainda estou me organizando</option><option>Prefiro conversar sobre isso</option></select></label>
       <label>Quando pensa em comprar?<select name="prazo" required><option value="">Selecione</option><option>Nos próximos 3 meses</option><option>Entre 3 e 6 meses</option><option>Entre 6 e 12 meses</option><option>Daqui a mais de 1 ano</option><option>Ainda sem prazo definido</option></select></label>
+      <label>Região preferida<select name="regiao" required><option value="">Selecione</option><option>Zona Oeste (Lapa, Barra Funda, Perdizes)</option><option>Zona Leste (Tatuapé, Mooca, Carrão, Penha)</option><option>Itaquera e extremo leste</option><option>Ipiranga e Vila Prudente</option><option>Tanto faz, quero a melhor opção</option></select></label>
+      <label>Quantos dormitórios?<select name="dormitorios" required><option value="">Selecione</option><option>Studio</option><option>1 dormitório</option><option>2 dormitórios</option><option>3 ou mais</option><option>Ainda não sei</option></select></label>
+      <label>Pretende usar FGTS?<select name="fgts" required><option value="">Selecione</option><option>Sim</option><option>Não</option><option>Não sei se tenho direito</option></select></label>
+      <label>Melhor horário para falar<select name="horario" required><option value="">Selecione</option><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Qualquer horário</option></select></label>
       <label class="full">Renda familiar mensal aproximada <span>(opcional)</span><select name="renda"><option value="Prefiro informar na conversa">Prefiro informar na conversa</option><option>Até R$ 4 mil</option><option>Acima de R$ 4 mil até R$ 8 mil</option><option>Acima de R$ 8 mil até R$ 12 mil</option><option>Acima de R$ 12 mil</option></select><small>Ajuda a orientar a conversa. Não é análise de crédito nem aprovação.</small></label>
+      <label class="hp" aria-hidden="true">Não preencha<input name="site" tabindex="-1" autocomplete="off"></label>
+      <label class="full consent"><input type="checkbox" name="consentimento" value="Sim" required><span>Autorizo a OLIVER IMOB a guardar estas informações e a entrar em contato comigo sobre imóveis, conforme a LGPD. Posso pedir a exclusão a qualquer momento.</span></label>
     </div>
     <button type="submit" class="btn btn-dark wide">Receber minhas opções no WhatsApp <svg><use href="#i-arrow"/></svg></button>
-    <p class="fine left">Suas respostas viram uma mensagem no WhatsApp para Gabriel Oliveira Santos. Você revisa antes de enviar. Nada é salvo em banco de dados.</p>
+    <p class="fine left">Suas respostas ficam registradas com segurança para o atendimento e viram uma mensagem no WhatsApp para Gabriel Oliveira Santos. Você revisa antes de enviar.</p>
     <p id="profile-status" role="status"></p>
     <noscript>Ative o JavaScript para gerar o resumo do seu perfil.</noscript>
   </form>
@@ -468,7 +476,8 @@
 <script src="clientes-data.js?v=12" defer></script>
 <script src="render-cards.js?v=12" defer></script>
 <script src="gallery.js" defer></script>
-<script src="profile.js?v=oliver-2" defer></script>
+<script src="leads-config.js?v=1" defer></script>
+<script src="profile.js?v=oliver-3" defer></script>
 <script src="assets/vendor/maplibre.js" defer></script>
 <script src="oliver.js?v=13" defer></script>
 <script src="oliver-map.js?v=13" defer></script>
