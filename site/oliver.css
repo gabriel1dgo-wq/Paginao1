@@ -700,7 +700,8 @@ body.gallery-is-open { overflow: hidden; }
 .map-section { height: 240vh; background: var(--paper); }
 /* solid panels over the map: backdrop blur on a live WebGL canvas is costly and looks grainy */
 .map-section .glass-card { background: rgba(255,255,255,.96); backdrop-filter: none; -webkit-backdrop-filter: none; border-color: rgba(0,0,0,.06); }
-#city-map canvas { outline: none; }
+#city-map canvas:focus:not(:focus-visible) { outline: none; }
+#city-map canvas:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .map-frame { clip-path: none; background: #f3f1ec; }
 .map-fallback { background: linear-gradient(#e7e3dc 1px, transparent 1px) 0 0/60px 60px, linear-gradient(90deg, #e7e3dc 1px, transparent 1px) 0 0/60px 60px, #f3f1ec; transform: none; inset: 0; }
 #map-status { color: var(--muted); }
@@ -861,7 +862,6 @@ body.gallery-is-open { overflow: hidden; }
   .timeline { padding-left: 42px; }
   .timeline .trilho { left: 14px; }
   .marco .bola { left: -34px; }
-  .marco .bola { left: -42px; }
   .map-section { height: 200vh; }
   .gm-search { top: 76px; }
   .gm-chips { top: 132px; right: var(--pad); flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
