@@ -911,3 +911,18 @@ body.gallery-is-open { overflow: hidden; }
 .profile-card .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .profile-card .consent { flex-direction: row; align-items: flex-start; gap: 10px; font-size: 11.5px; font-weight: 400; letter-spacing: 0; text-transform: none; color: #57544e; line-height: 1.5; }
 .profile-card .consent input { width: 16px; height: 16px; margin: 2px 0 0; flex: none; accent-color: var(--ink); }
+
+/* map polish: soft edges that melt into the page, pins outside the region become dots */
+.map-section .map-frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: linear-gradient(180deg, rgba(243,241,236,.85), transparent 12%, transparent 88%, rgba(243,241,236,.9)),
+              radial-gradient(130% 100% at 50% 50%, transparent 70%, rgba(243,241,236,.55)); }
+.map-section .map-ui { z-index: 3; }
+.gm-pin.away .gm-pin-card { padding: 0; gap: 0; box-shadow: 0 3px 8px rgba(0,0,0,.18); }
+.gm-pin.away .gm-pin-card > span { display: none; }
+.gm-pin.away .gm-pin-card img { width: 20px; height: 20px; border: 2px solid #fff; filter: saturate(.6); opacity: .85; }
+.gm-pin.away .gm-pin-tip { width: 7px; height: 7px; margin-top: -4px; }
+.gm-pin.away:hover .gm-pin-card > span { display: block; }
+.gm-pin.away:hover .gm-pin-card { padding: 4px 12px 4px 4px; gap: 8px; }
+.gm-pin.away:hover .gm-pin-card img { width: 34px; height: 34px; filter: none; opacity: 1; }
+.gm-pin.away { z-index: 0; }
+.gm-pin:not(.away) { z-index: 2; }

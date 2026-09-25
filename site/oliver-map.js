@@ -45,6 +45,12 @@
     });
     document.querySelectorAll('[data-district]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.district === key)));
     progress.forEach((d, i) => d.classList.toggle('on', i === keys.indexOf(key)));
+    paintRegion(key);
+  }
+  // pins outside the active region shrink to dots; a soft gold glow marks the active region's projects
+  function paintRegion(key) {
+    catalog.forEach(p => pins.get(p.id)?.classList.toggle('away', p.region !== key));
+    if (map && ready && map.getLayer('oliver-glow')) map.setFilter('oliver-glow', ['==', ['get', 'region'], key]);
   }
   function focusRegion(key, fly = true) {
     if (!regions[key]) return;
@@ -137,6 +143,14 @@
         'fill-extrusion-opacity': .95, 'fill-extrusion-vertical-gradient': true
       }
     });
+    map.addSource('oliver-projects', { type: 'geojson', data: { type: 'FeatureCollection', features: catalog.map(p => ({ type: 'Feature', properties: { region: p.region }, geometry: { type: 'Point', coordinates: p.ll } })) } });
+    map.addLayer({
+      id: 'oliver-glow', source: 'oliver-projects', type: 'circle', filter: ['==', ['get', 'region'], selected],
+      paint: {
+        'circle-radius': ['interpolate', ['exponential', 1.6], ['zoom'], 10, 14, 13, 38, 16, 120],
+        'circle-color': '#c9a46a', 'circle-opacity': .22, 'circle-blur': 1, 'circle-pitch-alignment': 'map'
+      }
+    }, 'oliver-buildings');
     catalog.forEach(p => {
       const el = document.createElement('button');
       el.type = 'button'; el.className = 'gm-pin';
@@ -156,6 +170,7 @@
     });
     const updateScale = () => { const z = map.getZoom(); container.classList.toggle('far', z < 12.4); container.classList.toggle('mid', z >= 12.4 && z < 14.8); };
     map.on('zoom', updateScale); updateScale();
+    paintRegion(selected);
   }
   function showProof(c) {
     const box = document.querySelector('#map-proof');
@@ -175,6 +190,7 @@
     try {
       map = new maplibregl.Map({
         container, style, ...overview,
+        canvasContextAttributes: { antialias: true }, // smooth building edges (no jagged/"grainy" look)
         pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 150, maxTileCacheSize: 120,
         maxBounds: [[-46.95, -23.80], [-46.30, -23.35]], minZoom: 9.5, maxZoom: 18, maxPitch: 70,
         attributionControl: { compact: true }, cooperativeGestures: true
