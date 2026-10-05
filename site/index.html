@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/brand-0.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="assets/vendor/maplibre.css">
-<link rel="stylesheet" href="oliver.css?v=15">
+<link rel="stylesheet" href="oliver.css?v=17">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -82,6 +82,30 @@
       <svg class="spark s2" style="--x:24%;--y:30%"><use href="#i-spark"/></svg>
     </div>
     <div class="floaters" data-floaters="hero" aria-hidden="true"></div>
+
+    <!-- rota Lapa → São Paulo → Itaquera com a ponte estaiada -->
+    <div class="hero-route" aria-hidden="true">
+      <svg class="route-map" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="rt-fade-y" x1="0" y1="0" x2="0" y2="1"><stop offset=".2" stop-color="#fff" stop-opacity="0"/><stop offset=".72" stop-color="#fff" stop-opacity="1"/></linearGradient>
+          <linearGradient id="rt-fade-x" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".08" stop-color="#fff"/><stop offset=".92" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <mask id="rt-mask"><rect width="1440" height="300" fill="url(#rt-fade-y)"/></mask>
+          <mask id="rt-mask-x"><rect width="1440" height="300" fill="url(#rt-fade-x)"/></mask>
+        </defs>
+        <g mask="url(#rt-mask)"><g mask="url(#rt-mask-x)">
+          <g class="rt-parks"><ellipse cx="180" cy="200" rx="70" ry="30" transform="rotate(4 180 200)"/><ellipse cx="470" cy="60" rx="50" ry="22" transform="rotate(2 470 60)"/><ellipse cx="690" cy="180" rx="60" ry="26" transform="rotate(5 690 180)"/><ellipse cx="880" cy="260" rx="80" ry="28" transform="rotate(-8 880 260)"/><ellipse cx="980" cy="70" rx="46" ry="20" transform="rotate(-3 980 70)"/><ellipse cx="300" cy="270" rx="40" ry="18" transform="rotate(3 300 270)"/><ellipse cx="1150" cy="160" rx="60" ry="24" transform="rotate(-3 1150 160)"/><ellipse cx="60" cy="120" rx="40" ry="18" transform="rotate(6 60 120)"/><ellipse cx="820" cy="120" rx="30" ry="14" transform="rotate(-2 820 120)"/></g>
+          <g class="rt-rivers"><path d="M-20 70C200 60 360 110 560 95S920 50 1120 80 1380 110 1460 100"/><path d="M520 310C540 240 600 200 590 120"/></g>
+          <g class="rt-streets"><path d="M452 57 Q469 49 519 31 Q491 22 409 7 Q368 22 340 -2"/><path d="M31 276 Q4 285 -44 300 Q-16 297 34 288 Q-26 282 -80 292"/><path d="M1167 227 Q1236 233 1285 219 Q1334 242 1374 234 Q1295 231 1238 212"/><path d="M863 190 Q907 192 1007 198 Q1021 195 1074 222 Q976 237 931 231"/><path d="M157 87 Q62 76 9 90 Q68 70 158 71 Q106 82 56 86"/><path d="M359 11 Q401 8 456 13 Q488 6 568 -12 Q617 -25 718 -3"/><path d="M277 60 Q222 70 212 52 Q193 47 116 45 Q77 28 41 43"/><path d="M115 116 Q30 133 -28 161 Q-104 159 -140 136 Q-82 143 -28 128"/><path d="M461 79 Q552 115 620 114 Q549 129 486 108 Q483 113 423 82"/><path d="M514 78 Q489 84 435 92 Q343 106 291 98 Q315 106 359 90"/><path d="M1437 133 Q1517 112 1592 121 Q1600 128 1667 97 Q1747 93 1809 86"/><path d="M1379 144 Q1313 146 1236 116 Q1274 121 1321 94 Q1357 89 1394 81"/><path d="M756 16 Q720 -4 677 -4 Q718 2 785 -14 Q841 -23 897 -37"/><path d="M1115 293 Q1179 315 1236 302 Q1309 299 1342 325 Q1384 314 1472 308"/><path d="M70 85 Q133 79 197 33 Q283 45 329 83 Q246 62 172 39"/><path d="M475 71 Q386 59 343 66 Q285 75 281 62 Q301 54 348 75"/><path d="M602 293 Q577 291 516 323 Q472 296 386 304 Q356 319 283 339"/><path d="M476 181 Q432 163 389 171 Q344 125 318 117 Q257 104 227 129"/><path d="M1074 181 Q1148 209 1182 221 Q1138 204 1079 195 Q1125 158 1189 157"/><path d="M157 32 Q100 49 72 29 Q174 19 219 6 Q159 15 130 -14"/><path d="M431 121 Q365 116 332 105 Q279 117 222 108 Q181 136 122 146"/><path d="M1296 131 Q1217 144 1138 130 Q1188 140 1202 123 Q1274 145 1336 137"/><path d="M998 225 Q981 219 935 213 Q1009 219 1078 212 Q988 242 950 254"/><path d="M343 33 Q256 30 210 46 Q170 43 101 56 Q173 22 238 28"/><path d="M52 93 Q114 103 181 87 Q156 88 75 94 Q101 77 155 84"/><path d="M1397 75 Q1405 69 1471 64 Q1540 65 1613 81 Q1634 63 1697 57"/><path d="M440 270 Q504 291 576 330 Q614 321 707 344 Q777 328 806 328"/><path d="M1382 87 Q1340 100 1271 116 Q1360 129 1419 131 Q1484 96 1573 98"/><path d="M1369 49 Q1346 61 1274 72 Q1301 90 1360 76 Q1340 68 1261 63"/><path d="M172 70 Q99 65 78 79 Q165 52 195 54 Q246 60 296 56"/><path d="M1272 77 Q1199 85 1187 102 Q1285 114 1332 101 Q1418 122 1463 106"/><path d="M338 44 Q403 26 450 24 Q490 17 575 30 Q615 58 639 69"/><path d="M130 32 Q56 52 12 36 Q-6 39 -49 58 Q-15 52 76 45"/><path d="M985 140 Q1077 128 1112 130 Q1084 107 1018 106 Q1071 109 1158 91"/><path d="M408 305 Q363 325 330 313 Q275 316 175 299 Q126 306 17 278"/><path d="M460 68 Q421 60 326 76 Q269 62 228 22 Q204 30 140 43"/><path d="M35 157 Q-56 178 -117 180 Q-125 176 -180 185 Q-226 220 -244 218"/><path d="M898 91 Q845 77 806 83 Q878 80 958 78 Q942 87 874 120"/><path d="M1180 239 Q1252 222 1317 219 Q1394 213 1413 176 Q1375 141 1278 125"/><path d="M88 40 Q26 33 -43 36 Q32 32 79 53 Q0 38 -48 43"/><path d="M193 284 Q172 270 100 292 Q130 290 184 319 Q130 349 113 341"/><path d="M846 298 Q758 312 700 318 Q632 308 545 322 Q475 312 464 316"/><path d="M991 67 Q1018 48 1071 44 Q1064 39 1001 49 Q971 37 932 37"/><path d="M593 278 Q516 284 497 286 Q535 306 557 294 Q583 289 658 273"/><path d="M524 166 Q541 159 612 117 Q660 109 721 68 Q765 64 794 34"/><path d="M204 254 Q226 239 304 219 Q279 198 222 213 Q206 201 150 220"/></g>
+          <g class="rt-avenues"><path d="M-20 120C180 100 320 160 520 140S880 90 1100 120 1360 170 1460 150"/><path d="M-20 230C200 210 380 260 600 250S980 200 1200 230 1400 270 1460 260"/><path d="M380 -10C400 80 360 180 420 310"/><path d="M760 -10C740 90 800 200 760 310"/><path d="M1080 -10C1110 100 1060 200 1120 310"/><path d="M140 310C220 220 260 140 360 60"/><path d="M1300 310C1240 220 1250 120 1180 40"/></g>
+        </g></g>
+        <path class="rt-line-ghost" d="M300 182C400 240 520 262 612 254S820 192 948 208"/>
+        <path class="rt-line" pathLength="1" d="M300 182C400 240 520 262 612 254S820 192 948 208"/>
+        <g class="rt-pin p1" transform="translate(300 182)"><path class="pin" d="M0 0C-6-9-9-13-9-18a9 9 0 1 1 18 0c0 5-3 9-9 18z"/><circle cy="-18" r="3.4" fill="#fff"/><text x="0" y="22" text-anchor="middle">LAPA</text></g>
+        <g class="rt-pin p2 sp" transform="translate(612 254)"><path class="pin" d="M0 0C-5-8-7.5-11-7.5-15a7.5 7.5 0 1 1 15 0c0 4-2.5 7-7.5 15z"/><circle cy="-15" r="2.8" fill="#fff"/><text x="0" y="20" text-anchor="middle">SÃO PAULO</text></g>
+        <g class="rt-pin p3" transform="translate(948 208)"><path class="pin" d="M0 0C-6-9-9-13-9-18a9 9 0 1 1 18 0c0 5-3 9-9 18z"/><circle cy="-18" r="3.4" fill="#fff"/><text x="-16" y="-12" text-anchor="end">ITAQUERA</text></g>
+      </svg>
+      <img class="hero-bridge" src="assets/ponte-estaiada.webp" alt="" width="1280" height="720" decoding="async">
+    </div>
 
     <div class="hero-visual">
       <div class="block block-a" data-depth=".35"></div>
@@ -479,7 +503,7 @@
 <script src="leads-config.js?v=1" defer></script>
 <script src="profile.js?v=oliver-3" defer></script>
 <script src="assets/vendor/maplibre.js" defer></script>
-<script src="oliver.js?v=13" defer></script>
+<script src="oliver.js?v=14" defer></script>
 <script src="oliver-map.js?v=14" defer></script>
 </body>
 </html>

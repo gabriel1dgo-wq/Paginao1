@@ -87,6 +87,7 @@
   const hero = $('#inicio');
   const heroCopy = $('.hero-copy'), heroCards = $$('[data-hero-card]'), heroDots = $('.hero-dots'), cue = $('.scroll-cue');
   const depthEls = $$('.hero [data-depth]'), tower = $('.hero .tower');
+  const heroRoute = $('.hero-route');
   const themed = $$('[data-theme]');
   const railLinks = $$('.rail a'), navLinks = $$('.main-nav a');
   const sectionsFor = railLinks.map(a => $(a.getAttribute('href')));
@@ -153,6 +154,7 @@
     });
     heroDots.style.opacity = clamp((hp - .25) * 4);
     cue.style.opacity = 1 - clamp(hp * 6);
+    if (heroRoute) { heroRoute.style.opacity = 1 - clamp(hp * 3); heroRoute.style.transform = `translateY(${hp * 90}px)`; }
   }
   let ticking = false;
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; onScroll(); }); } }, { passive: true });
